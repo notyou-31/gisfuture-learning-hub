@@ -19,11 +19,18 @@ import { Route as AuthenticatedExamsRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedHomeworkRouteImport } from './routes/_authenticated/homework'
 import { Route as AuthenticatedMockPapersRouteImport } from './routes/_authenticated/mock-papers'
 import { Route as AuthenticatedProgressRouteImport } from './routes/_authenticated/progress'
+import { Route as AuthenticatedAdminAttemptsRouteImport } from './routes/_authenticated/admin.attempts'
+import { Route as AuthenticatedAdminPasskeysRouteImport } from './routes/_authenticated/admin.passkeys'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedResultsAttemptIdRouteImport } from './routes/_authenticated/results.$attemptId'
 import { Route as AuthenticatedSubjectsIndexRouteImport } from './routes/_authenticated/subjects.index'
 import { Route as AuthenticatedSubjectsSubjectIdRouteImport } from './routes/_authenticated/subjects.$subjectId'
+import { Route as AuthenticatedTeachLibraryRouteImport } from './routes/_authenticated/teach.library'
+import { Route as AuthenticatedTeachReportsRouteImport } from './routes/_authenticated/teach.reports'
 import { Route as AuthenticatedTestsIndexRouteImport } from './routes/_authenticated/tests.index'
 import { Route as AuthenticatedTestsTestIdRouteImport } from './routes/_authenticated/tests.$testId'
+import { Route as AuthenticatedTeachTestsIndexRouteImport } from './routes/_authenticated/teach.tests.index'
+import { Route as AuthenticatedTeachTestsTestIdRouteImport } from './routes/_authenticated/teach.tests.$testId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -75,6 +82,23 @@ const AuthenticatedProgressRoute = AuthenticatedProgressRouteImport.update({
   path: '/progress',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminAttemptsRoute =
+  AuthenticatedAdminAttemptsRouteImport.update({
+    id: '/admin/attempts',
+    path: '/admin/attempts',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminPasskeysRoute =
+  AuthenticatedAdminPasskeysRouteImport.update({
+    id: '/admin/passkeys',
+    path: '/admin/passkeys',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedResultsAttemptIdRoute =
   AuthenticatedResultsAttemptIdRouteImport.update({
     id: '/results/$attemptId',
@@ -93,6 +117,18 @@ const AuthenticatedSubjectsSubjectIdRoute =
     path: '/subjects/$subjectId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedTeachLibraryRoute =
+  AuthenticatedTeachLibraryRouteImport.update({
+    id: '/teach/library',
+    path: '/teach/library',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTeachReportsRoute =
+  AuthenticatedTeachReportsRouteImport.update({
+    id: '/teach/reports',
+    path: '/teach/reports',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedTestsIndexRoute = AuthenticatedTestsIndexRouteImport.update({
   id: '/tests/',
   path: '/tests/',
@@ -102,6 +138,18 @@ const AuthenticatedTestsTestIdRoute =
   AuthenticatedTestsTestIdRouteImport.update({
     id: '/tests/$testId',
     path: '/tests/$testId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTeachTestsIndexRoute =
+  AuthenticatedTeachTestsIndexRouteImport.update({
+    id: '/teach/tests/',
+    path: '/teach/tests/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTeachTestsTestIdRoute =
+  AuthenticatedTeachTestsTestIdRouteImport.update({
+    id: '/teach/tests/$testId',
+    path: '/teach/tests/$testId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -115,11 +163,18 @@ export interface FileRoutesByFullPath {
   '/homework': typeof AuthenticatedHomeworkRoute
   '/mock-papers': typeof AuthenticatedMockPapersRoute
   '/progress': typeof AuthenticatedProgressRoute
+  '/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
+  '/admin/passkeys': typeof AuthenticatedAdminPasskeysRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/results/$attemptId': typeof AuthenticatedResultsAttemptIdRoute
   '/subjects/$subjectId': typeof AuthenticatedSubjectsSubjectIdRoute
+  '/teach/library': typeof AuthenticatedTeachLibraryRoute
+  '/teach/reports': typeof AuthenticatedTeachReportsRoute
   '/tests/$testId': typeof AuthenticatedTestsTestIdRoute
   '/subjects/': typeof AuthenticatedSubjectsIndexRoute
   '/tests/': typeof AuthenticatedTestsIndexRoute
+  '/teach/tests/$testId': typeof AuthenticatedTeachTestsTestIdRoute
+  '/teach/tests/': typeof AuthenticatedTeachTestsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -131,11 +186,18 @@ export interface FileRoutesByTo {
   '/homework': typeof AuthenticatedHomeworkRoute
   '/mock-papers': typeof AuthenticatedMockPapersRoute
   '/progress': typeof AuthenticatedProgressRoute
+  '/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
+  '/admin/passkeys': typeof AuthenticatedAdminPasskeysRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/results/$attemptId': typeof AuthenticatedResultsAttemptIdRoute
   '/subjects/$subjectId': typeof AuthenticatedSubjectsSubjectIdRoute
+  '/teach/library': typeof AuthenticatedTeachLibraryRoute
+  '/teach/reports': typeof AuthenticatedTeachReportsRoute
   '/tests/$testId': typeof AuthenticatedTestsTestIdRoute
   '/subjects': typeof AuthenticatedSubjectsIndexRoute
   '/tests': typeof AuthenticatedTestsIndexRoute
+  '/teach/tests/$testId': typeof AuthenticatedTeachTestsTestIdRoute
+  '/teach/tests': typeof AuthenticatedTeachTestsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -149,11 +211,18 @@ export interface FileRoutesById {
   '/_authenticated/homework': typeof AuthenticatedHomeworkRoute
   '/_authenticated/mock-papers': typeof AuthenticatedMockPapersRoute
   '/_authenticated/progress': typeof AuthenticatedProgressRoute
+  '/_authenticated/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
+  '/_authenticated/admin/passkeys': typeof AuthenticatedAdminPasskeysRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/results/$attemptId': typeof AuthenticatedResultsAttemptIdRoute
   '/_authenticated/subjects/$subjectId': typeof AuthenticatedSubjectsSubjectIdRoute
+  '/_authenticated/teach/library': typeof AuthenticatedTeachLibraryRoute
+  '/_authenticated/teach/reports': typeof AuthenticatedTeachReportsRoute
   '/_authenticated/tests/$testId': typeof AuthenticatedTestsTestIdRoute
   '/_authenticated/subjects/': typeof AuthenticatedSubjectsIndexRoute
   '/_authenticated/tests/': typeof AuthenticatedTestsIndexRoute
+  '/_authenticated/teach/tests/$testId': typeof AuthenticatedTeachTestsTestIdRoute
+  '/_authenticated/teach/tests/': typeof AuthenticatedTeachTestsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -167,11 +236,18 @@ export interface FileRouteTypes {
     | '/homework'
     | '/mock-papers'
     | '/progress'
+    | '/admin/attempts'
+    | '/admin/passkeys'
+    | '/admin/users'
     | '/results/$attemptId'
     | '/subjects/$subjectId'
+    | '/teach/library'
+    | '/teach/reports'
     | '/tests/$testId'
     | '/subjects/'
     | '/tests/'
+    | '/teach/tests/$testId'
+    | '/teach/tests/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -183,11 +259,18 @@ export interface FileRouteTypes {
     | '/homework'
     | '/mock-papers'
     | '/progress'
+    | '/admin/attempts'
+    | '/admin/passkeys'
+    | '/admin/users'
     | '/results/$attemptId'
     | '/subjects/$subjectId'
+    | '/teach/library'
+    | '/teach/reports'
     | '/tests/$testId'
     | '/subjects'
     | '/tests'
+    | '/teach/tests/$testId'
+    | '/teach/tests'
   id:
     | '__root__'
     | '/'
@@ -200,11 +283,18 @@ export interface FileRouteTypes {
     | '/_authenticated/homework'
     | '/_authenticated/mock-papers'
     | '/_authenticated/progress'
+    | '/_authenticated/admin/attempts'
+    | '/_authenticated/admin/passkeys'
+    | '/_authenticated/admin/users'
     | '/_authenticated/results/$attemptId'
     | '/_authenticated/subjects/$subjectId'
+    | '/_authenticated/teach/library'
+    | '/_authenticated/teach/reports'
     | '/_authenticated/tests/$testId'
     | '/_authenticated/subjects/'
     | '/_authenticated/tests/'
+    | '/_authenticated/teach/tests/$testId'
+    | '/_authenticated/teach/tests/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -286,6 +376,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProgressRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/attempts': {
+      id: '/_authenticated/admin/attempts'
+      path: '/admin/attempts'
+      fullPath: '/admin/attempts'
+      preLoaderRoute: typeof AuthenticatedAdminAttemptsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/passkeys': {
+      id: '/_authenticated/admin/passkeys'
+      path: '/admin/passkeys'
+      fullPath: '/admin/passkeys'
+      preLoaderRoute: typeof AuthenticatedAdminPasskeysRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/results/$attemptId': {
       id: '/_authenticated/results/$attemptId'
       path: '/results/$attemptId'
@@ -307,6 +418,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSubjectsSubjectIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/teach/library': {
+      id: '/_authenticated/teach/library'
+      path: '/teach/library'
+      fullPath: '/teach/library'
+      preLoaderRoute: typeof AuthenticatedTeachLibraryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/teach/reports': {
+      id: '/_authenticated/teach/reports'
+      path: '/teach/reports'
+      fullPath: '/teach/reports'
+      preLoaderRoute: typeof AuthenticatedTeachReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tests/': {
       id: '/_authenticated/tests/'
       path: '/tests'
@@ -321,6 +446,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTestsTestIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/teach/tests/': {
+      id: '/_authenticated/teach/tests/'
+      path: '/teach/tests'
+      fullPath: '/teach/tests/'
+      preLoaderRoute: typeof AuthenticatedTeachTestsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/teach/tests/$testId': {
+      id: '/_authenticated/teach/tests/$testId'
+      path: '/teach/tests/$testId'
+      fullPath: '/teach/tests/$testId'
+      preLoaderRoute: typeof AuthenticatedTeachTestsTestIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -331,11 +470,18 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHomeworkRoute: typeof AuthenticatedHomeworkRoute
   AuthenticatedMockPapersRoute: typeof AuthenticatedMockPapersRoute
   AuthenticatedProgressRoute: typeof AuthenticatedProgressRoute
+  AuthenticatedAdminAttemptsRoute: typeof AuthenticatedAdminAttemptsRoute
+  AuthenticatedAdminPasskeysRoute: typeof AuthenticatedAdminPasskeysRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedResultsAttemptIdRoute: typeof AuthenticatedResultsAttemptIdRoute
   AuthenticatedSubjectsSubjectIdRoute: typeof AuthenticatedSubjectsSubjectIdRoute
+  AuthenticatedTeachLibraryRoute: typeof AuthenticatedTeachLibraryRoute
+  AuthenticatedTeachReportsRoute: typeof AuthenticatedTeachReportsRoute
   AuthenticatedTestsTestIdRoute: typeof AuthenticatedTestsTestIdRoute
   AuthenticatedSubjectsIndexRoute: typeof AuthenticatedSubjectsIndexRoute
   AuthenticatedTestsIndexRoute: typeof AuthenticatedTestsIndexRoute
+  AuthenticatedTeachTestsTestIdRoute: typeof AuthenticatedTeachTestsTestIdRoute
+  AuthenticatedTeachTestsIndexRoute: typeof AuthenticatedTeachTestsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -345,11 +491,18 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHomeworkRoute: AuthenticatedHomeworkRoute,
   AuthenticatedMockPapersRoute: AuthenticatedMockPapersRoute,
   AuthenticatedProgressRoute: AuthenticatedProgressRoute,
+  AuthenticatedAdminAttemptsRoute: AuthenticatedAdminAttemptsRoute,
+  AuthenticatedAdminPasskeysRoute: AuthenticatedAdminPasskeysRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedResultsAttemptIdRoute: AuthenticatedResultsAttemptIdRoute,
   AuthenticatedSubjectsSubjectIdRoute: AuthenticatedSubjectsSubjectIdRoute,
+  AuthenticatedTeachLibraryRoute: AuthenticatedTeachLibraryRoute,
+  AuthenticatedTeachReportsRoute: AuthenticatedTeachReportsRoute,
   AuthenticatedTestsTestIdRoute: AuthenticatedTestsTestIdRoute,
   AuthenticatedSubjectsIndexRoute: AuthenticatedSubjectsIndexRoute,
   AuthenticatedTestsIndexRoute: AuthenticatedTestsIndexRoute,
+  AuthenticatedTeachTestsTestIdRoute: AuthenticatedTeachTestsTestIdRoute,
+  AuthenticatedTeachTestsIndexRoute: AuthenticatedTeachTestsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
