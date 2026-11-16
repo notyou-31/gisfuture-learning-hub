@@ -32,11 +32,12 @@ export function groupStats(
 ): GroupStat[] {
   const map = new Map<string, GroupStat>();
   for (const a of attempts) {
-    const id = a[key];
+    // Tests without a subject are grouped under "General"; tests without a chapter are skipped for chapter stats.
+    const id = a[key] ?? (key === "subject_id" ? "general" : null);
     if (!id) continue;
     const g =
       map.get(id) ??
-      { id, name: names[id] ?? "Other", tests: 0, score: 0, max: 0, percent: 0, accuracy: 0, correct: 0, wrong: 0, skipped: 0 };
+      { id, name: names[id] ?? (id === "general" ? "General" : "Other"), tests: 0, score: 0, max: 0, percent: 0, accuracy: 0, correct: 0, wrong: 0, skipped: 0 };
     g.tests += 1;
     g.score += Number(a.score);
     g.max += Number(a.max_score);

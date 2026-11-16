@@ -4,7 +4,7 @@ import { useMe } from "@/hooks/use-me";
 import type { AppRole } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-export function PageHeader({ eyebrow, title, description, actions }: { eyebrow?: string; title: string; description?: string; actions?: ReactNode }) {
+export function PageHeader({ eyebrow, title, description, actions }: { eyebrow?: string | undefined; title: string; description?: string | undefined; actions?: ReactNode | undefined }) {
   return (
     <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between animate-rise">
       <div>
@@ -17,11 +17,11 @@ export function PageHeader({ eyebrow, title, description, actions }: { eyebrow?:
   );
 }
 
-export function Panel({ className, children }: { className?: string; children: ReactNode }) {
+export function Panel({ className, children }: { className?: string | undefined; children: ReactNode }) {
   return <div className={cn("rounded-2xl border bg-card p-5 shadow-soft sm:p-6", className)}>{children}</div>;
 }
 
-export function EmptyState({ icon, title, text }: { icon?: ReactNode; title: string; text?: string }) {
+export function EmptyState({ icon, title, text }: { icon?: ReactNode | undefined; title: string; text?: string | undefined }) {
   return (
     <div className="rounded-2xl border border-dashed bg-card/60 px-6 py-12 text-center">
       {icon && <div className="mx-auto mb-3 grid size-12 place-items-center rounded-full bg-primary-soft text-primary">{icon}</div>}
@@ -31,7 +31,7 @@ export function EmptyState({ icon, title, text }: { icon?: ReactNode; title: str
   );
 }
 
-export function StatCard({ label, value, hint, tone = "primary" }: { label: string; value: ReactNode; hint?: string; tone?: "primary" | "saffron" | "success" | "destructive" }) {
+export function StatCard({ label, value, hint, tone = "primary" }: { label: string; value: ReactNode; hint?: string | undefined; tone?: "primary" | "saffron" | "success" | "destructive" | undefined }) {
   const tones = {
     primary: "bg-primary-soft text-accent-foreground",
     saffron: "bg-saffron-soft text-saffron-foreground",
@@ -64,7 +64,7 @@ export function RoleGate({ roles, children }: { roles: AppRole[]; children: Reac
   return <>{children}</>;
 }
 
-export function Field({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) {
+export function Field({ label, children, hint }: { label: string; children: ReactNode; hint?: string | undefined }) {
   return (
     <label className="block space-y-1.5">
       <span className="text-sm font-medium text-foreground">{label}</span>

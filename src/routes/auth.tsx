@@ -39,6 +39,8 @@ function AuthPage() {
   const [show, setShow] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -112,7 +114,7 @@ function AuthPage() {
               </div>
             )}
 
-            <form onSubmit={onSubmit} className="space-y-4">
+            <form method="post" onSubmit={onSubmit} className="space-y-4">
               <Field label="Mobile number">
                 <div className="flex items-center rounded-md border border-input bg-background focus-within:ring-1 focus-within:ring-ring">
                   <span className="flex items-center gap-1.5 border-r px-3 text-sm text-muted-foreground">
@@ -157,7 +159,7 @@ function AuthPage() {
 
               {error && <p className="rounded-lg bg-destructive-soft px-3 py-2 text-sm text-destructive">{error}</p>}
 
-              <Button type="submit" variant="hero" size="lg" className="w-full" disabled={busy || setup.isLoading}>
+              <Button type="submit" variant="hero" size="lg" className="w-full" disabled={!hydrated || busy || setup.isLoading}>
                 {busy ? "Please wait…" : needsSetup ? "Create super admin" : "Continue"}
               </Button>
               <p className="text-center text-xs text-muted-foreground">Each mobile number can have only one account.</p>

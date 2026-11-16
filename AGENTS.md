@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules (GISFuture)
+- Sign-in is phone number + passkey only (no OTP): `phoneSignIn` server fn validates the passkey with the admin client, creates the user with a synthetic email from `phoneToAuthEmail`, rotates a random password and returns session tokens for `supabase.auth.setSession`. Why: Cloud Auth needs an email credential; public sign-up is disabled so the passkey cannot be bypassed.
+- Roles live only in `user_roles`; the passkey used on first sign-in fixes the role, and a phone can never switch role. The first account ever created becomes super admin.
+- Students never read `questions` directly; tests load via `get_test_for_student` and are graded in `submit_attempt` (SQL, security definer). Why: answers must never reach the browser before submission.
+- "Reattempt" archives the attempt (`archived = true`) instead of deleting it; leaderboard and reports only count non-archived attempts.
+- Study files live in the private `school-files` bucket and are opened through short-lived signed URLs (`src/lib/files.ts`).

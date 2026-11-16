@@ -69,11 +69,11 @@ function NewTest() {
       .from("tests")
       .insert({
         title: f.title, description: f.description || null, subject_id: orNull(f.subject), chapter_id: orNull(f.chapter),
-        duration_minutes: Math.max(1, parseInt(f.duration) || 30), created_by: me?.id,
+        duration_minutes: Math.max(1, parseInt(f.duration) || 30), created_by: me?.id ?? null,
       })
       .select("id")
       .single();
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     navigate({ to: "/teach/tests/$testId", params: { testId: data.id } });
   }
   return (

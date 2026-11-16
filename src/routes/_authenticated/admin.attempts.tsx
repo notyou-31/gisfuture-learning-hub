@@ -38,8 +38,8 @@ function AttemptsPage() {
 
   async function allow(id: string, name: string) {
     if (!confirm(`Allow ${name} to take this test again? Their current score will be cleared from the leaderboard.`)) return;
-    const { error } = await supabase.from("attempts").update({ archived: true, archived_at: new Date().toISOString(), archived_by: me?.id }).eq("id", id);
-    if (error) return toast.error(error.message);
+    const { error } = await supabase.from("attempts").update({ archived: true, archived_at: new Date().toISOString(), archived_by: me?.id ?? null }).eq("id", id);
+    if (error) { toast.error(error.message); return; }
     toast.success("Reattempt allowed");
     qc.invalidateQueries({ queryKey: ["attempts"] });
   }

@@ -24,7 +24,7 @@ export function ResourceItem({ r, meta, onDelete }: { r: ResourceRow; meta?: str
   const short = RESOURCE_KINDS.find((k) => k.value === r.kind)?.short ?? r.kind;
 
   async function open_() {
-    if (embed) return setOpen(true);
+    if (embed) { setOpen(true); return; }
     if (r.file_path) {
       try {
         await openSchoolFile(r.file_path);

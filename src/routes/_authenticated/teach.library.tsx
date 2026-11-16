@@ -50,15 +50,15 @@ function LibraryPage() {
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    if (!subject) return toast.error("Choose a subject");
-    if (isVideo && !url) return toast.error("Paste the YouTube link");
-    if (!isVideo && !file && !url) return toast.error("Upload a file or add a link");
+    if (!subject) { toast.error("Choose a subject"); return; }
+    if (isVideo && !url) { toast.error("Paste the YouTube link"); return; }
+    if (!isVideo && !file && !url) { toast.error("Upload a file or add a link"); return; }
     setBusy(true);
     try {
       const up = !isVideo && file ? await uploadSchoolFile(file, `resources/${kind}`) : null;
       const { error } = await supabase.from("resources").insert({
         subject_id: subject, chapter_id: orNull(chapter), kind, title, description: desc || null,
-        url: url || null, file_path: up?.path ?? null, file_name: up?.name ?? null, created_by: me?.id,
+        url: url || null, file_path: up?.path ?? null, file_name: up?.name ?? null, created_by: me?.id ?? null,
       });
       if (error) throw error;
       toast.success("Material added");
@@ -76,7 +76,7 @@ function LibraryPage() {
   async function addChapter() {
     if (!subject || !newChapter.trim()) return;
     const { error } = await supabase.from("chapters").insert({ subject_id: subject, name: newChapter.trim(), sort: 999 });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setNewChapter("");
     toast.success("Chapter added");
     qc.invalidateQueries({ queryKey: ["chapters"] });

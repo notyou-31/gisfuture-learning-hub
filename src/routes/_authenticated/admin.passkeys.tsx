@@ -22,7 +22,7 @@ export const Route = createFileRoute("/_authenticated/admin/passkeys")({
 
 function genCode(role: AppRole) {
   const prefix = role === "teacher" ? "TCH" : role === "student" ? "STU" : "ADM";
-  const n = crypto.getRandomValues(new Uint32Array(1))[0].toString(36).toUpperCase().slice(0, 6);
+  const n = crypto.getRandomValues(new Uint32Array(1))[0]!.toString(36).toUpperCase().slice(0, 6);
   return `${prefix}-${n}`;
 }
 
@@ -45,26 +45,26 @@ function PasskeysPage() {
   async function create(e: React.FormEvent) {
     e.preventDefault();
     const { error } = await supabase.from("passkeys").insert({ role, code: code.trim(), label: label || null });
-    if (error) return toast.error(error.code === "23505" ? "That passkey is already in use. Every key must be different." : error.message);
+    if (error) { toast.error(error.code === "23505" ? "That passkey is already in use. Every key must be different." : error.message); return; }
     toast.success("Passkey created");
     setCode(genCode(role)); setLabel("");
     refresh();
   }
   async function saveEdit(id: string) {
-    if (editCode.trim().length < 4) return toast.error("Use at least 4 characters");
+    if (editCode.trim().length < 4) { toast.error("Use at least 4 characters"); return; }
     const { error } = await supabase.from("passkeys").update({ code: editCode.trim(), updated_at: new Date().toISOString() }).eq("id", id);
-    if (error) return toast.error(error.code === "23505" ? "That passkey is already in use." : error.message);
+    if (error) { toast.error(error.code === "23505" ? "That passkey is already in use." : error.message); return; }
     toast.success("Passkey changed");
     setEditId(null);
     refresh();
   }
   async function toggle(k: (typeof keys)[number]) {
-    if (k.role === "super_admin" && k.is_active && activeAdminKeys <= 1) return toast.error("Keep at least one active super admin key");
+    if (k.role === "super_admin" && k.is_active && activeAdminKeys <= 1) { toast.error("Keep at least one active super admin key"); return; }
     await supabase.from("passkeys").update({ is_active: !k.is_active }).eq("id", k.id);
     refresh();
   }
   async function remove(k: (typeof keys)[number]) {
-    if (k.role === "super_admin" && k.is_active && activeAdminKeys <= 1) return toast.error("Keep at least one active super admin key");
+    if (k.role === "super_admin" && k.is_active && activeAdminKeys <= 1) { toast.error("Keep at least one active super admin key"); return; }
     if (!confirm("Delete this passkey? People already signed up keep their accounts, but can't sign in with this key again.")) return;
     await supabase.from("passkeys").delete().eq("id", k.id);
     refresh();

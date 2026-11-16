@@ -64,7 +64,7 @@ function UsersPage() {
   }
   async function unblock(phone: string) {
     const { error } = await supabase.from("blocked_phones").delete().eq("phone", phone);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Number unblocked — they can sign in again");
     qc.invalidateQueries({ queryKey: ["blocked"] });
   }

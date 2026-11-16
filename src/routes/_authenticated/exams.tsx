@@ -83,9 +83,9 @@ function AddExam() {
   async function save(e: React.FormEvent) {
     e.preventDefault();
     const { error } = await supabase.from("exams").insert({
-      title: f.title, subject_id: orNull(f.subject), exam_date: f.date, start_time: f.time || null, syllabus: f.syllabus || null, created_by: me?.id,
+      title: f.title, subject_id: orNull(f.subject), exam_date: f.date, start_time: f.time || null, syllabus: f.syllabus || null, created_by: me?.id ?? null,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Exam added");
     qc.invalidateQueries({ queryKey: ["exams"] });
     setOpen(false);

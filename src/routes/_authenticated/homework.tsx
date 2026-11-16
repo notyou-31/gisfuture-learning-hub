@@ -91,7 +91,7 @@ function AddHomework() {
       const up = file ? await uploadSchoolFile(file, "homework") : null;
       const { error } = await supabase.from("homework").insert({
         title, description: desc || null, subject_id: orNull(subject), due_date: due || null, link_url: link || null,
-        file_path: up?.path ?? null, file_name: up?.name ?? null, created_by: me?.id,
+        file_path: up?.path ?? null, file_name: up?.name ?? null, created_by: me?.id ?? null,
       });
       if (error) throw error;
       toast.success("Homework posted");

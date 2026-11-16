@@ -28,8 +28,8 @@ export function youtubeEmbed(url: string): string | null {
     let id: string | null = null;
     if (u.hostname.includes("youtu.be")) id = u.pathname.slice(1);
     else if (u.hostname.includes("youtube.com")) {
-      if (u.pathname.startsWith("/embed/")) id = u.pathname.split("/")[2];
-      else if (u.pathname.startsWith("/shorts/")) id = u.pathname.split("/")[2];
+      if (u.pathname.startsWith("/embed/")) id = u.pathname.split("/")[2] ?? null;
+      else if (u.pathname.startsWith("/shorts/")) id = u.pathname.split("/")[2] ?? null;
       else id = u.searchParams.get("v");
     }
     return id ? `https://www.youtube.com/embed/${id}` : null;

@@ -48,9 +48,9 @@ function EditTest() {
   const t = test.data;
 
   async function togglePublish() {
-    if (!t.is_published && (qs.data ?? []).length === 0) return toast.error("Add at least one question first");
+    if (!t.is_published && (qs.data ?? []).length === 0) { toast.error("Add at least one question first"); return; }
     const { error } = await supabase.from("tests").update({ is_published: !t.is_published }).eq("id", t.id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(t.is_published ? "Test moved to draft" : "Test published for students");
     refresh();
   }
@@ -126,7 +126,7 @@ function TestSettings({ t, onSaved }: { t: Database["public"]["Tables"]["tests"]
   useEffect(() => { setTitle(t.title); setDuration(String(t.duration_minutes)); setDesc(t.description ?? ""); }, [t]);
   async function save() {
     const { error } = await supabase.from("tests").update({ title, description: desc || null, duration_minutes: Math.max(1, parseInt(duration) || 30) }).eq("id", t.id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Saved");
     onSaved();
   }
@@ -156,11 +156,11 @@ function QuestionForm({ testId, initial, nextSort = 0, onDone, onCancel }: { tes
   async function save(e: React.FormEvent) {
     e.preventDefault();
     const opts = options.map((o) => o.trim()).filter(Boolean);
-    if (qtype === "mcq" && opts.length < 2) return toast.error("Add at least two options");
-    if (qtype === "mcq" && !options[correct]?.trim()) return toast.error("Mark the correct option");
-    if (qtype === "integer" && (value === "" || isNaN(Number(value)))) return toast.error("Enter the correct numeric answer");
+    if (qtype === "mcq" && opts.length < 2) { toast.error("Add at least two options"); return; }
+    if (qtype === "mcq" && !options[correct]?.trim()) { toast.error("Mark the correct option"); return; }
+    if (qtype === "integer" && (value === "" || isNaN(Number(value)))) { toast.error("Enter the correct numeric answer"); return; }
     // re-index correct option after dropping blanks
-    const correctIdx = qtype === "mcq" ? opts.indexOf(options[correct].trim()) : null;
+    const correctIdx = qtype === "mcq" ? opts.indexOf((options[correct] ?? "").trim()) : null;
     const row = {
       test_id: testId, qtype, prompt,
       options: qtype === "mcq" ? opts : [],
@@ -174,7 +174,7 @@ function QuestionForm({ testId, initial, nextSort = 0, onDone, onCancel }: { tes
       ? await supabase.from("questions").update(row).eq("id", initial.id)
       : await supabase.from("questions").insert({ ...row, sort: nextSort });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(initial ? "Question updated" : "Question added");
     if (!initial) { setPrompt(""); setOptions(["", "", "", ""]); setCorrect(0); setValue(""); setExplanation(""); }
     onDone();

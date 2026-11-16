@@ -101,7 +101,7 @@ function TakeTest() {
     );
   }
 
-  const cur = questions[idx];
+  const cur = questions[idx]!;
   const mm = String(Math.floor(left / 60)).padStart(2, "0");
   const ss = String(left % 60).padStart(2, "0");
   const answered = Object.values(answers).filter((v) => v !== "").length;

@@ -76,8 +76,8 @@ function AddAnnouncement() {
   const [pinned, setPinned] = useState(false);
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    const { error } = await supabase.from("announcements").insert({ title, body: body || null, is_pinned: pinned, created_by: me?.id });
-    if (error) return toast.error(error.message);
+    const { error } = await supabase.from("announcements").insert({ title, body: body || null, is_pinned: pinned, created_by: me?.id ?? null });
+    if (error) { toast.error(error.message); return; }
     toast.success("Announcement posted");
     qc.invalidateQueries({ queryKey: ["announcements"] });
     setOpen(false); setTitle(""); setBody(""); setPinned(false);
