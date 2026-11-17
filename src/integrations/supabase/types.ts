@@ -304,6 +304,36 @@ export type Database = {
         }
         Relationships: []
       }
+      phone_logins: {
+        Row: {
+          created_at: string
+          full_name: string
+          phone: string
+          role: Database["public"]["Enums"]["app_role"]
+          secret: string
+          setup_passkey: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          full_name: string
+          phone: string
+          role: Database["public"]["Enums"]["app_role"]
+          secret: string
+          setup_passkey?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          phone?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          secret?: string
+          setup_passkey?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -576,6 +606,16 @@ export type Database = {
       }
       is_member: { Args: { _user_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      phone_login: {
+        Args: { _full_name?: string; _passkey: string; _phone: string }
+        Returns: Json
+      }
+      portal_needs_setup: { Args: never; Returns: boolean }
+      record_login: { Args: never; Returns: undefined }
+      remove_member: {
+        Args: { _reason?: string; _user_id: string }
+        Returns: undefined
+      }
       submit_attempt: {
         Args: { _answers: Json; _test_id: string; _time_taken: number }
         Returns: string

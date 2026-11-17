@@ -8,6 +8,13 @@
       "when": 1794757583606,
       "tag": "0000_gisfuture_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794911995766,
+      "tag": "0001_phone_login_without_server_key",
+      "breakpoints": true
     }
   ]
 }

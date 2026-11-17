@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import { Search, ShieldOff, UserX } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { removeUser } from "@/lib/auth.functions";
 import { useMe } from "@/hooks/use-me";
 import { usePeople } from "@/hooks/use-people";
 import { ROLE_LABEL } from "@/lib/constants";
@@ -32,7 +30,6 @@ function UsersPage() {
   const { data: me } = useMe();
   const qc = useQueryClient();
   const people = usePeople();
-  const remove = useServerFn(removeUser);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState<"all" | "student" | "teacher" | "super_admin">("all");
   const logins = useQuery({
@@ -54,7 +51,8 @@ function UsersPage() {
   async function onRemove(id: string, name: string) {
     if (!confirm(`Remove ${name}? They will be signed out and their number will be blocked.`)) return;
     try {
-      await remove({ data: { userId: id } });
+      const { error } = await supabase.rpc("remove_member", { _user_id: id });
+      if (error) throw error;
       toast.success(`${name} removed`);
       qc.invalidateQueries({ queryKey: ["people"] });
       qc.invalidateQueries({ queryKey: ["blocked"] });

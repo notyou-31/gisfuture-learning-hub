@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
 import { Eye, EyeOff, KeyRound, Phone, ShieldCheck, User } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { getSetupStatus, phoneSignIn } from "@/lib/auth.functions";
+import { getSetupStatus, signInWithPhone } from "@/lib/phone-auth";
 import { Brand } from "@/components/app/Brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,7 +27,6 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const signIn = useServerFn(phoneSignIn);
   const setup = useQuery({ queryKey: ["setup-status"], queryFn: () => getSetupStatus() });
   const needsSetup = setup.data?.needsSetup ?? false;
 
@@ -55,7 +53,7 @@ function AuthPage() {
     setError(null);
     setBusy(true);
     try {
-      const res = await signIn({ data: { phone, passkey, fullName: showName ? fullName : undefined } });
+      const res = await signInWithPhone({ phone, passkey, fullName: showName ? fullName : undefined });
       if (!res.ok) {
         if (res.needsName) {
           setAskName(true);
@@ -63,8 +61,6 @@ function AuthPage() {
         } else setError(res.error ?? "Sign-in failed.");
         return;
       }
-      const { error: sErr } = await supabase.auth.setSession({ access_token: res.access_token, refresh_token: res.refresh_token });
-      if (sErr) throw sErr;
       await queryClient.invalidateQueries({ queryKey: ["me"] });
       toast.success("Signed in");
       navigate({ to: "/dashboard", replace: true });

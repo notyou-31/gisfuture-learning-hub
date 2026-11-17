@@ -30,7 +30,7 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Project rules (GISFuture)
-- Sign-in is phone number + passkey only (no OTP): `phoneSignIn` server fn validates the passkey with the admin client, creates the user with a synthetic email from `phoneToAuthEmail`, rotates a random password and returns session tokens for `supabase.auth.setSession`. Why: Cloud Auth needs an email credential; public sign-up is disabled so the passkey cannot be bypassed.
+- Sign-in is phone number + passkey only (no OTP), with no private server key: the `phone_login` SQL function checks passkey/blocked/role lock and returns that number's private code from `phone_logins` (no client grants); the browser then calls `signUp`/`signInWithPassword` with the synthetic email from `phoneToAuthEmail`. Triggers on `auth.users` reject any sign-up that did not just pass `phone_login` with that exact code, then create profile + role. User removal is the `remove_member` SQL function. Why: the site must also run on outside hosts (Cloudflare) where the service-role key is unavailable.
 - Roles live only in `user_roles`; the passkey used on first sign-in fixes the role, and a phone can never switch role. The first account ever created becomes super admin.
 - Students never read `questions` directly; tests load via `get_test_for_student` and are graded in `submit_attempt` (SQL, security definer). Why: answers must never reach the browser before submission.
 - "Reattempt" archives the attempt (`archived = true`) instead of deleting it; leaderboard and reports only count non-archived attempts.
